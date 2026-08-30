@@ -8,15 +8,13 @@
    3. Header: scroll gölgesi + mobil menü
    4. WhatsApp Buton Bağlantıları
    5. Servis Kartları (Accordion)
-   6. Önce / Sonra Kaydırıcı
-   7. Galeri Lightbox
-   8. Yorumlar Slider
-   9. SSS Accordion
-   10. Scroll Reveal Animasyonları
-   11. Yukarı Çık Butonu
-   12. Aktif Nav Linki (Scrollspy)
-   13. Footer Yılı
-   14. Başlatma
+   6. Yorumlar Slider
+   7. SSS Accordion
+   8. Scroll Reveal Animasyonları
+   9. Yukarı Çık Butonu
+   10. Aktif Nav Linki (Scrollspy)
+   11. Footer Yılı
+   12. Başlatma
    ========================================================================== */
 
 (function () {
@@ -119,94 +117,7 @@
   }
 
   /* ========================================================================
-     6. Önce / Sonra Kaydırıcı
-     ======================================================================== */
-  function initBeforeAfterSliders() {
-    qsa(".ba-slider").forEach((slider) => {
-      const range = qs(".ba-range", slider);
-      const afterImg = qs(".ba-after", slider);
-      const divider = qs(".ba-divider", slider);
-      const handle = qs(".ba-handle", slider);
-      if (!range || !afterImg) return;
-
-      const update = (value) => {
-        // "Sonrası" görselinin sol tarafını (0..value%) görünür bırak, kalanını kırp.
-        afterImg.style.clipPath = `inset(0 ${100 - value}% 0 0)`;
-        if (divider) divider.style.left = `${value}%`;
-        if (handle) handle.style.left = `${value}%`;
-      };
-
-      range.addEventListener("input", (e) => update(e.target.value));
-      update(range.value || 50);
-    });
-  }
-
-  /* ========================================================================
-     7. Galeri Lightbox
-     ======================================================================== */
-  function initLightbox() {
-    const items = qsa(".gallery-item");
-    const lightbox = qs("#lightbox");
-    if (!items.length || !lightbox) return;
-
-    const imgEl = qs(".lightbox-content img", lightbox);
-    const captionEl = qs(".lightbox-caption", lightbox);
-    const closeBtn = qs(".lightbox-close", lightbox);
-    const prevBtn = qs(".lightbox-prev", lightbox);
-    const nextBtn = qs(".lightbox-next", lightbox);
-
-    let currentIndex = 0;
-
-    const show = (index) => {
-      currentIndex = (index + items.length) % items.length;
-      const item = items[currentIndex];
-      const fullSrc = item.getAttribute("data-full") || qs("img", item).src;
-      const caption = item.getAttribute("data-caption") || "";
-      imgEl.src = fullSrc;
-      imgEl.alt = caption;
-      captionEl.textContent = caption;
-    };
-
-    const open = (index) => {
-      show(index);
-      lightbox.classList.add("is-active");
-      document.body.style.overflow = "hidden";
-    };
-
-    const close = () => {
-      lightbox.classList.remove("is-active");
-      document.body.style.overflow = "";
-    };
-
-    items.forEach((item, index) => {
-      item.addEventListener("click", () => open(index));
-      item.setAttribute("tabindex", "0");
-      item.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          open(index);
-        }
-      });
-    });
-
-    closeBtn?.addEventListener("click", close);
-    prevBtn?.addEventListener("click", () => show(currentIndex - 1));
-    nextBtn?.addEventListener("click", () => show(currentIndex + 1));
-
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) close();
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (!lightbox.classList.contains("is-active")) return;
-      if (e.key === "Escape") close();
-      if (e.key === "ArrowLeft") show(currentIndex - 1);
-      if (e.key === "ArrowRight") show(currentIndex + 1);
-    });
-  }
-
-  /* ========================================================================
-     8. Yorumlar Slider
+     6. Yorumlar Slider
      ======================================================================== */
   function initTestimonialSlider() {
     const track = qs(".testimonial-track");
@@ -226,7 +137,7 @@
   }
 
   /* ========================================================================
-     9. SSS Accordion
+     7. SSS Accordion
      ======================================================================== */
   function initFaqAccordion() {
     const items = qsa(".faq-item");
@@ -248,7 +159,7 @@
   }
 
   /* ========================================================================
-     10. Scroll Reveal Animasyonları
+     8. Scroll Reveal Animasyonları
      ======================================================================== */
   function initScrollReveal() {
     const targets = qsa(".reveal");
@@ -275,7 +186,7 @@
   }
 
   /* ========================================================================
-     11. Yukarı Çık Butonu
+     9. Yukarı Çık Butonu
      ======================================================================== */
   function initBackToTop() {
     const btn = qs("#back-to-top");
@@ -295,7 +206,7 @@
   }
 
   /* ========================================================================
-     12. Aktif Nav Linki (Scrollspy)
+     10. Aktif Nav Linki (Scrollspy)
      ======================================================================== */
   function initScrollSpy() {
     const sections = qsa("main section[id]");
@@ -322,7 +233,7 @@
   }
 
   /* ========================================================================
-     13. Footer Yılı
+     11. Footer Yılı
      ======================================================================== */
   function initFooterYear() {
     const el = qs("#current-year");
@@ -330,14 +241,12 @@
   }
 
   /* ========================================================================
-     14. Başlatma
+     12. Başlatma
      ======================================================================== */
   function init() {
     initHeader();
     initWhatsAppLinks();
     initServiceCards();
-    initBeforeAfterSliders();
-    initLightbox();
     initTestimonialSlider();
     initFaqAccordion();
     initScrollReveal();
